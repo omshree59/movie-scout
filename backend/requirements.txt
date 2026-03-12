@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+pydantic
+firebase-admin
+cloudinary
+torch
+torchvision
+torchaudio
+scikit-learn
+pandas
+numpy
+sentence-transformers
+faiss-cpu
+python-dotenv
+requests
+pytest

@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  --color-netflixRed: #E50914;
+  --color-netflixDark: #141414;
+  --color-netflixGray: #808080;
+  --color-netflixLightGray: #B3B3B3;
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-netflixDark);
+    color: white;
+    font-family: var(--font-sans);
+    margin: 0;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom scrollbar for horizontal rows */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
