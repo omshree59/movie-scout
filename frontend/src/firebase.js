@@ -4,13 +4,13 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAgKNU1z3U52aIrJilpOuCPjOu5Elyt09k",
-  authDomain: "moviescout-ae947.firebaseapp.com",
-  projectId: "moviescout-ae947",
-  storageBucket: "moviescout-ae947.firebasestorage.app",
-  messagingSenderId: "62579358010",
-  appId: "1:62579358010:web:cd8a3593c988bece5d3803",
-  measurementId: "G-EYK5DR2S4D"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);

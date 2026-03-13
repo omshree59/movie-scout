@@ -87,41 +87,61 @@ const Navbar = () => {
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <span className="text-netflixRed font-black text-2xl tracking-tight">MOVIE</span>
-            <span className="text-white font-black text-2xl tracking-tight">SCOUT</span>
+      <div className="w-full px-4 md:px-12 lg:px-16 transition-all duration-300">
+        <div className="flex items-center h-16 transition-all">
+          {/* Logo (Shifted left by removing max-w-7xl and increasing padding) */}
+          <Link to="/" className="flex items-center space-x-2 mr-8 md:mr-12 hover:scale-105 transition-transform">
+            <span className="text-netflixRed font-black text-3xl tracking-tighter drop-shadow-md">MOVIE</span>
+            <span className="text-white font-black text-3xl tracking-tighter drop-shadow-md">SCOUT</span>
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-6">
-            {navLinks.map(({ to, label, icon: Icon }) => (
-              <Link
-                key={to}
-                to={to}
-                className={`flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-white ${
-                  location.pathname === to ? 'text-white' : 'text-netflixLightGray'
-                }`}
-              >
-                <Icon size={15} />
-                {label}
-              </Link>
-            ))}
+          <div className="hidden md:flex items-center space-x-7 flex-1">
+            {navLinks.map(({ to, label }) => {
+              const isActive = location.pathname === to;
+              return (
+                <Link
+                  key={to}
+                  to={to}
+                  className={`relative text-sm transition-all duration-300 ${
+                    isActive 
+                      ? 'text-white font-bold drop-shadow-lg scale-105' 
+                      : 'text-white/70 font-medium hover:text-white hover:drop-shadow-md'
+                  }`}
+                >
+                  {label}
+                  {isActive && (
+                    <motion.div 
+                      layoutId="nav-indicator"
+                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-netflixRed rounded-full shadow-[0_0_8px_rgba(229,9,20,0.8)]"
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                </Link>
+              );
+            })}
           </div>
 
+          {/* Right Side Controls */}
+          <div className="flex items-center justify-end">
             <div className="relative hidden md:block z-50">
-              <form onSubmit={handleSearch} className="flex items-center bg-black/40 border border-white/20 rounded-full px-4 py-1.5 gap-2 hover:border-white/50 transition-all">
-                <Search size={14} className="text-netflixLightGray" />
+              <form 
+                onSubmit={handleSearch} 
+                className={`flex items-center rounded-full px-4 py-1.5 gap-2 transition-all duration-300 ${
+                  showSuggestions || searchVal 
+                    ? 'bg-black/80 border border-white/30 shadow-[0_0_15px_rgba(255,255,255,0.1)]' 
+                    : 'bg-black/40 border border-white/10 hover:border-white/40'
+                }`}
+              >
+                <Search size={16} className={showSuggestions || searchVal ? 'text-white' : 'text-white/60'} />
                 <input
                   type="text"
                   value={searchVal}
                   onChange={handleSearchChange}
                   onFocus={() => setShowSuggestions(true)}
                   onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                  placeholder="Search movies..."
-                  className="bg-transparent text-sm text-white placeholder-netflixGray outline-none w-40 md:w-48 lg:w-56 transition-all"
+                  placeholder="Search titles, genres, cast..."
+                  className="bg-transparent text-sm text-white placeholder-white/40 outline-none w-48 lg:w-64 transition-all"
                 />
               </form>
 
@@ -129,10 +149,11 @@ const Navbar = () => {
               <AnimatePresence>
                 {showSuggestions && searchVal.trim().length > 0 && (
                   <motion.div 
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="absolute top-full mt-2 w-full min-w-[300px] right-0 bg-[#181818] border border-white/10 rounded-md shadow-2xl overflow-hidden"
+                    initial={{ opacity: 0, y: -10, filter: 'blur(10px)' }}
+                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    exit={{ opacity: 0, y: -10, filter: 'blur(10px)' }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full mt-3 w-full min-w-[320px] right-0 bg-[#141414]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.8)] overflow-hidden"
                   >
                     {isSearching && suggestions.length === 0 ? (
                       <div className="p-4 text-sm text-netflixGray text-center">Searching...</div>
@@ -174,21 +195,22 @@ const Navbar = () => {
             <div className="hidden md:flex items-center space-x-4 ml-4 border-l border-white/10 pl-6">
               {user ? (
                 <div className="flex items-center space-x-4">
-                  <div className="w-8 h-8 rounded bg-netflixRed flex items-center justify-center font-bold text-sm">
+                  <div className="w-8 h-8 rounded bg-netflixRed flex items-center justify-center font-bold text-sm shadow-[0_0_10px_rgba(229,9,20,0.5)] cursor-pointer hover:scale-105 transition-transform">
                     {user.email?.charAt(0).toUpperCase()}
                   </div>
-                  <button onClick={handleLogout} className="text-netflixLightGray hover:text-white transition-colors">
+                  <button onClick={handleLogout} className="text-white/60 hover:text-white transition-colors">
                     <LogOut size={18} />
                   </button>
                 </div>
               ) : (
-                <Link to="/login" className="bg-netflixRed text-white px-4 py-1.5 rounded font-bold text-sm hover:bg-[#c11119] transition">
+                <Link to="/login" className="bg-netflixRed text-white px-5 py-1.5 rounded font-bold text-sm hover:bg-[#c11119] transition-all hover:shadow-[0_0_15px_rgba(229,9,20,0.4)]">
                   Sign In
                 </Link>
               )}
             </div>
+          </div>
 
-            {/* Mobile toggle */}
+          {/* Mobile toggle */}
           <button
             className="md:hidden text-white p-2"
             onClick={() => setMobileOpen(!mobileOpen)}

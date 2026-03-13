@@ -10,24 +10,29 @@ import { useApp } from '../store/AppContext';
 const Hero = () => {
   const navigate = useNavigate();
   return (
-    <div className="relative h-[80vh] w-full mt-0">
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-netflixDark to-transparent z-10"></div>
+    <div className="relative h-[80vh] w-full mt-0 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-t from-netflixDark via-netflixDark/50 to-transparent z-10 w-full h-full pointer-events-none"></div>
+      
+      {/* Subtle vignette on the sides to make it feel more cinematic */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent z-10 w-full h-full pointer-events-none"></div>
+      
       <img
-        src="https://raw.githubusercontent.com/omshree59/movie-assets/main/posters/cloy.jpg"
+        src="https://image.tmdb.org/t/p/original/o3Htmlg6BfNs8Ew7yjsRzVnYSEs.jpg"
         alt="Hero Background"
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover object-[center_20%]"
       />
-      <div className="absolute top-[30%] left-[5%] z-20 max-w-2xl">
+      
+      <div className="absolute bottom-[20%] left-4 md:left-12 lg:left-16 z-20 max-w-2xl xl:max-w-3xl">
         <motion.h1 
-          className="text-5xl md:text-7xl font-black text-white mb-4 drop-shadow-lg"
+          className="text-5xl md:text-7xl lg:text-8xl font-black text-white mb-2 md:mb-4 drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)] tracking-tight leading-none"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          CRASH LANDING ON YOU
+          CRASH LANDING<br/>ON YOU
         </motion.h1>
         <motion.p 
-          className="text-lg md:text-xl text-white/90 mb-6 drop-shadow-md font-medium"
+          className="text-base md:text-xl lg:text-2xl text-white/90 mb-6 md:mb-8 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-medium max-w-xl leading-snug"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -41,8 +46,8 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           <button 
-            onClick={() => navigate('/movie/15')}
-            className="bg-netflixRed text-white px-8 py-3 rounded-md font-bold text-lg hover:bg-[#c11119] transition shadow-lg">
+            onClick={() => navigate('/movie/1')}
+            className="flex items-center gap-2 bg-white text-black px-6 py-2.5 md:px-8 md:py-3.5 rounded-md font-bold text-base md:text-lg hover:bg-white/80 transition shadow-[0_4px_15px_rgba(255,255,255,0.3)] hover:scale-105">
             More Info
           </button>
         </motion.div>

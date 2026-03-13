@@ -1,0 +1,20 @@
+# Backend
+backend/.env
+backend/firebase_credentials.json
+backend/__pycache__/
+backend/*.pyc
+backend/.venv/
+backend/venv/
+backend/ml_pipeline/saved_models/
+backend/ml_pipeline/data/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/.env
+frontend/*.local
+
+# OS
+.DS_Store
+Thumbs.db

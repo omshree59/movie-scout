@@ -1,11 +1,12 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 @theme {
   --color-netflixRed: #E50914;
-  --color-netflixDark: #141414;
-  --color-netflixGray: #808080;
-  --color-netflixLightGray: #B3B3B3;
-  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --color-netflixDark: #0a0a0c; /* Richer, deeper space black instead of flat gray */
+  --color-netflixGray: #8a8d91;
+  --color-netflixLightGray: #c1c3c6;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 @layer base {
@@ -15,6 +16,9 @@
     font-family: var(--font-sans);
     margin: 0;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
   }
 }
 

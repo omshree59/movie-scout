@@ -27,9 +27,20 @@ const MovieDetails = () => {
     return () => setOnAuthRequired(() => () => {});
   }, [navigate, setOnAuthRequired]);
 
+  // Scroll to top whenever the movie changes (e.g. clicking "More Like This")
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [id]);
+
   // Fetch movie details
   useEffect(() => {
     const fetchMovie = async () => {
+      // Reset stale state immediately so old movie doesn't linger
+      setMovie(null);
+      setSimilar([]);
+      setUserRating(0);
+      setRatingSubmitted(false);
+
       if (id === 'interstellar') {
         setMovie({
           movie_id: 'interstellar', title: 'Interstellar',
@@ -43,8 +54,14 @@ const MovieDetails = () => {
       }
       try {
         const { data } = await movieAPI.getMovieById(id);
+        // Build a wide backdrop URL
+        let backdropUrl = data.backdrop_url || '';
+        if (!backdropUrl && data.poster_url) {
+          backdropUrl = data.poster_url.replace('/w500/', '/w1280/');
+        }
         setMovie({
           ...data,
+          backdrop_url: backdropUrl || data.poster_url,
           description: data.description || `${data.title} — an incredible story you won't forget.`,
           runtime: data.runtime || '1h 50m – 2h 20m per ep.',
         });
@@ -107,14 +124,14 @@ const MovieDetails = () => {
         {/* Background poster */}
         <div className="absolute inset-0 overflow-hidden">
           <img
-            src={movie.poster_url || `https://placehold.co/1920x1080/111/333?text=${encodeURIComponent(movie.title)}`}
+            src={movie.backdrop_url || movie.poster_url || `https://placehold.co/1920x1080/111/333?text=${encodeURIComponent(movie.title)}`}
             alt={movie.title}
             className="w-full h-full object-cover"
-            style={{ objectPosition: 'center top' }}
+            style={{ objectPosition: 'center center' }}
           />
           {/* Gradient overlays: bottom + left + dark vignette */}
-          <div className="absolute inset-0 bg-gradient-to-t from-netflixDark via-netflixDark/60 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-netflixDark via-netflixDark/40 to-transparent w-4/5" />
+          <div className="absolute inset-0 bg-gradient-to-t from-netflixDark via-netflixDark/70 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-netflixDark via-netflixDark/50 to-transparent w-4/5" />
         </div>
 
         {/* Hero Content */}
@@ -363,16 +380,23 @@ const MovieDetails = () => {
           >
             <h2 className="text-2xl font-black mb-6 tracking-tight">More Like This</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-              {similar.map((m, i) => (
-                <motion.div
-                  key={m.movie_id || i}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.05 * i }}
-                >
-                  <MovieCard movie={m} variant="grid" />
-                </motion.div>
-              ))}
+              {similar.map((m, i) => {
+                // Ensure every similar card has a usable movie_id for routing
+                const cardMovie = {
+                  ...m,
+                  movie_id: m.movie_id ?? m.tmdb_id ?? m.id ?? i,
+                };
+                return (
+                  <motion.div
+                    key={cardMovie.movie_id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.05 * i }}
+                  >
+                    <MovieCard movie={cardMovie} variant="grid" />
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.section>
         )}

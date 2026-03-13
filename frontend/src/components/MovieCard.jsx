@@ -36,13 +36,13 @@ const MovieCard = ({ movie, variant = 'row', onClick }) => {
     <motion.div
       className={wrapClass}
       onClick={handleClick}
-      whileHover={{ scale: 1.05, y: -4, zIndex: 20 }}
-      transition={{ type: 'spring', stiffness: 380, damping: 28 }}
+      whileHover={{ scale: 1.08, y: -8, zIndex: 50 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
     >
       {/* ── Poster container: fixed 2:3 ratio, overflow hidden ── */}
       <div
         style={{ aspectRatio: '2 / 3' }}
-        className="relative w-full overflow-hidden rounded-xl bg-[#141414] shadow-lg border border-white/[0.06]"
+        className="relative w-full overflow-hidden rounded-xl bg-[#141414] shadow-lg border border-white/10 group-hover:border-white/20 group-hover:shadow-[0_10px_30px_rgba(0,0,0,0.9)] transition-all duration-300"
       >
         <img
           src={posterUrl}

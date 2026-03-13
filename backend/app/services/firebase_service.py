@@ -2,6 +2,16 @@ from app.core.firebase import get_db
 from datetime import datetime
 from typing import Optional
 
+
+# ── Firestore client helper (used by all services) ────────────────────────────
+
+def get_firestore_client():
+    """Return the Firestore client, initialising Firebase if necessary."""
+    return get_db()
+
+
+# ── Rating helpers ─────────────────────────────────────────────────────────────
+
 def save_rating(user_id: str, movie_id: int, rating: float):
     db = get_db()
     doc_ref = db.collection("ratings").document(f"{user_id}_{movie_id}")

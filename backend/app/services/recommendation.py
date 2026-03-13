@@ -178,6 +178,24 @@ KDRAMA_MOCKS = [
 # Stable lookup by ID
 _KDRAMA_BY_ID = {d["id"]: d for d in KDRAMA_MOCKS}
 
+_TMDB_MOCK_POSTERS = {
+    1: "https://image.tmdb.org/t/p/w500/fgBNLPr6mC8pxuR79ENAJY4nBmj.jpg",
+    2: "https://image.tmdb.org/t/p/w500/x8ZQyxAFjz9jtCGivbOMYUC4Tp3.jpg",
+    3: "https://image.tmdb.org/t/p/w500/1QdXdRYfktUSONkl1oD5gc6Be0s.jpg",
+    4: "https://image.tmdb.org/t/p/w500/s1zXuYyMMrgpet6BBrMqGlHnvc8.jpg",
+    5: "https://image.tmdb.org/t/p/w500/8XSJfLeImX8NszDUFnK1lbseCi8.jpg",
+    6: "https://image.tmdb.org/t/p/w500/qg7q0piY0fTt2enlIRHwKKRwNjS.jpg",
+    7: "https://image.tmdb.org/t/p/w500/qbkSS1cTjT4DzIwD44bdhTuYgdT.jpg",
+    8: "https://image.tmdb.org/t/p/w500/mqhYVbe20pB0PQXVZVdtbMakOCF.jpg",
+    9: "https://image.tmdb.org/t/p/w500/8MSjQkH2FrG0t4l84L5HmiSFrS7.jpg",
+    10: "https://image.tmdb.org/t/p/w500/o5cBRMF6syh4yUBgZ2Ust8LvcxA.jpg",
+    11: "https://image.tmdb.org/t/p/w500/goGRtZKhPhLGgtxVA5gBdDfFcDe.jpg",
+    12: "https://image.tmdb.org/t/p/w500/p7ljjykSsiyWstGVAwIkbdfPzRV.jpg",
+    13: "https://image.tmdb.org/t/p/w500/xkRyopANOnO60KWm6DjozXlq9w4.jpg",
+    14: "https://image.tmdb.org/t/p/w500/uUM4LVlPgIrww07OoEKrGWlS1Ej.jpg",
+    15: "https://image.tmdb.org/t/p/w500/ovLdkMclsr9NjkfRPgMaGDTHyGk.jpg",
+}
+
 def _drama_to_dict(drama: dict) -> dict:
     """Convert a KDrama mock entry to API response dict."""
     return {
@@ -185,7 +203,7 @@ def _drama_to_dict(drama: dict) -> dict:
         "title": drama["title"],
         "genres": drama["genres"],
         "year": 2020,
-        "poster_url": drama["poster"],
+        "poster_url": _TMDB_MOCK_POSTERS.get(drama["id"], drama["poster"]),
         "description": drama["desc"],
         "suitable_for": drama["suitable"],
         "cast": drama.get("cast", []),

@@ -14,6 +14,9 @@ class Settings(BaseSettings):
     CLOUDINARY_API_KEY: str = ""
     CLOUDINARY_API_SECRET: str = ""
 
+    # TMDB
+    TMDB_API_KEY: str = ""
+
     # ML Settings
     MODELS_PATH: str = os.path.join(os.path.dirname(__file__), "../../ml_pipeline/saved_models")
     DATA_PATH: str = os.path.join(os.path.dirname(__file__), "../../ml_pipeline/data")
